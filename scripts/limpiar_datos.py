@@ -2,6 +2,10 @@ import polars as pl
 from pathlib import Path
 from cargar_datos import cargar_datos
 
+
+
+#Ruta de salida
+OUTPUT_DIR = Path.home() / "favorita_pipeline" / "data" / "processed"
 #Funcion principal
 
 def limpiar_datos():
@@ -38,12 +42,23 @@ def limpiar_datos():
     transactions = transactions.unique()
 
     print("Despues de quitar duplicados:")
+    print()
     print("train:", train.shape)
     print("stores:", stores.shape)
     print("oil:", oil.shape)
     print("holidays:", holidays.shape)
     print("transactions:", transactions.shape)
 
+    #Crear las carpeta si no existen
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    train.write_parquet(OUTPUT_DIR / "train_limpio.parquet")
+    stores.write_parquet(OUTPUT_DIR / "stores_limpio.parquet")
+    oil.write_parquet(OUTPUT_DIR / "oil_limpio.parquet")
+    holidays.write_parquet(OUTPUT_DIR / "holidays_limpio.parquet")
+    transactions.write_parquet(OUTPUT_DIR / "transactions_limpio.parquet")
+
+    print()
+    print("Archivos limpios guardados en ", OUTPUT_DIR)
 
 
 if __name__ == "__main__":
