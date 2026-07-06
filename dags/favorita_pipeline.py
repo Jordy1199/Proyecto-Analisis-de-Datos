@@ -25,8 +25,15 @@ def favorita_pipeline():
         from eda_inicial import eda_inicial
         eda_inicial()
         return "eda completado"
+    
+    @task
+    def limpiar_datos_task(resultado_eda):
+        from limpiar_datos import limpiar_datos
+        limpiar_datos()
+        return "limpiaza completada"
 
-    resultado = cargar_datos_task()
-    eda_inicial_task(resultado)
+    resultado_carga = cargar_datos_task()
+    resultado_eda = eda_inicial_task(resultado_carga)
+    resultado_limpieza = limpiar_datos_task(resultado_eda)
 
 favorita_pipeline()
