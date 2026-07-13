@@ -58,10 +58,17 @@ def favorita_pipeline():
         df = consolidar()
         return {"filas_consolidado": df.height}
 
+    @task
+    def eda_profundo_task(resultado_consolidado):
+        from eda_profundo import eda_profundo
+        eda_profundo()
+        return "eda profundo completado"
+
     resultado_carga = cargar_datos_task()
     resultado_eda = eda_inicial_task(resultado_carga)
     resultado_limpieza = limpiar_datos_task(resultado_eda)
     resultado_consolidado = consolidar_datos_task(resultado_limpieza)
+    resultado_eda_profundo = eda_profundo_task(resultado_consolidado)
 
 
 favorita_pipeline()
