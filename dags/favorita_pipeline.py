@@ -63,12 +63,19 @@ def favorita_pipeline():
         from eda_profundo import eda_profundo
         eda_profundo()
         return "eda profundo completado"
+    
+    @task
+    def exportar_postgres_task(resultado_eda_profundo):
+        from exportar_postgres import exportar_postgres
+        exportar_postgres()
+        return "exportacion completada"
 
     resultado_carga = cargar_datos_task()
     resultado_eda = eda_inicial_task(resultado_carga)
     resultado_limpieza = limpiar_datos_task(resultado_eda)
     resultado_consolidado = consolidar_datos_task(resultado_limpieza)
     resultado_eda_profundo = eda_profundo_task(resultado_consolidado)
+    resultado_exportacion = exportar_postgres_task(resultado_eda_profundo)
 
 
 favorita_pipeline()
