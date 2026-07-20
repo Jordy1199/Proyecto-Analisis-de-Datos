@@ -179,3 +179,53 @@ esperado de un `join`, no una duplicación indebida.
 El dataset original ya venía curado por los organizadores de la competencia
 (Kaggle); el único vacío real correspondía a días sin cotización de mercado
 para el precio del petróleo (fines de semana y feriados bursátiles).
+
+## 9. Conclusiones y recomendaciones
+
+### Conclusiones
+
+- **Concentración de ventas por categoría:** Grocery I domina las ventas totales
+  (~350M), 58% por encima de Beverages, la segunda categoría. Cinco familias
+  (Grocery I, Beverages, Produce, Cleaning, Dairy) concentran la mayoría del
+  volumen de ventas de toda la cadena.
+
+- **Los feriados nacionales impactan positivamente las ventas promedio**
+  ($425 en feriado vs $353 en día normal), pero el efecto no es uniforme entre
+  familias de producto — algunas categorías son mucho más sensibles que otras.
+
+- **Existe una relación clara entre transacciones y ventas por tienda**
+  (correlación visualmente fuerte en el gráfico de dispersión), lo que confirma
+  que el volumen de clientes es el principal impulsor de ingresos, más que el
+  ticket promedio individual.
+
+- **La correlación entre precio del petróleo y ventas mensuales es negativa**,
+  y se vuelve más marcada con un desfase (lag) de varios meses durante el
+  período 2015-2016, sugiriendo que el impacto económico de la caída del
+  petróleo en Ecuador no fue inmediato sobre el consumo.
+
+- **La calidad del dataset original era alta**: 0 duplicados y prácticamente
+  0 nulos fuera de la serie de precios del petróleo, lo que permitió enfocar
+  el esfuerzo del pipeline en la consolidación y el análisis, más que en
+  limpieza extensiva.
+
+### Recomendaciones
+
+- **Pipeline incremental:** actualmente el pipeline reprocesa el dataset
+  completo en cada corrida (`if_table_exists="replace"`). Para un entorno de
+  producción real, se recomendaría procesar solo los datos nuevos, reduciendo
+  tiempo de ejecución a medida que el dataset crezca.
+
+- **Monitoreo y alertas:** agregar notificaciones (correo/Slack) en caso de
+  fallo de alguna tarea, en vez de depender de revisar manualmente la interfaz
+  de Airflow.
+
+- **Modelo predictivo como siguiente fase:** el EDA profundo identificó
+  patrones claros (estacionalidad, sensibilidad a promociones, relación con
+  el petróleo) que podrían alimentar un modelo de forecasting de ventas —
+  explícitamente fuera del alcance de este proyecto, pero un paso natural
+  siguiente.
+
+- **Ampliar el análisis geográfico:** dado que se detectaron diferencias de
+  sensibilidad al petróleo por ciudad, valdría la pena profundizar con datos
+  socioeconómicos adicionales por región para entender el porqué de esas
+  diferencias.
