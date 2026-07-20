@@ -1,0 +1,23 @@
+name: Trigger Favorita Pipeline
+
+on:
+  push:
+    paths:
+      - 'manifest.json'
+  workflow_dispatch:
+
+jobs:
+  trigger-dag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar DAG en la VM via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/Proyecto-Analisis-de-Datos
+            source venv/bin/activate
+            airflow dags trigger favorita_pipeline
+            echo "DAG disparado correctamente"
