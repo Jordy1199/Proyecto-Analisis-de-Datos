@@ -244,13 +244,19 @@ def eda_profundo():
 
     #TRANSACCIONES----------------------------------------------------------------------------------
     #Relacion entre numero de transacciones y volumen de ventas por tienda
-    transacciones_ventas_tienda = (
-        df.group_by("store_nbr")
-        .agg([
-            pl.col("sales").sum().alias("ventas_totales"),
-            pl.col("transactions").sum().alias("transacciones_totales"),
-        ])
+    transacciones_unicas = (
+    df.select(["store_nbr", "date", "transactions"])
+    .unique()
     )
+    transacciones_por_tienda = (
+    transacciones_unicas.group_by("store_nbr")
+    .agg(pl.col("transactions").sum().alias("transacciones_totales"))
+    )
+    ventas_por_tienda = (
+    df.group_by("store_nbr")
+    .agg(pl.col("sales").sum().alias("ventas_totales"))
+    )
+    transacciones_ventas_tienda = ventas_por_tienda.join(transacciones_por_tienda, on="store_nbr")
     transacciones_ventas_tienda = transacciones_ventas_tienda.with_columns(
         (pl.col("ventas_totales") / pl.col("transacciones_totales")).alias("ticket_promedio")
     )

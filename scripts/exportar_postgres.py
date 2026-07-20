@@ -4,34 +4,30 @@ import polars as pl
 import json
 import os
 from pathlib import Path
-from sqlalchemy import create_engine
 
 #Ruta de entrada
 INPUT_DIR = Path.home() / "favorita_pipeline" / "data" / "processed"
 
 
 #Armar conexión
-def obtener_engine():
+def obtener_conn_uri():
     password = os.environ.get("POSTGRES_PASSWORD")
     if not password:
         raise ValueError("Exportar variable POSTGRES_PASSWORD para el script")
-    
-    return create_engine(
-        #URL de conexion a la base de datos PostgreSQL
-        f"postgresql+psycopg2://favorita_user:{password}@localhost:5432/favorita"
-    )
+    #URI de conexion en formato ADBC (sin +psycopg2)
+    return f"postgresql://favorita_user:{password}@localhost:5432/favorita_db"
 
 
 def exportar_postgres():
-    engine = obtener_engine()
+    conn_uri = obtener_conn_uri()
 
     df = pl.read_parquet(INPUT_DIR / "consolidado.parquet")
     print("Exportando consolidado a Postgres...", df.shape)
-
     df.write_database(
         table_name="consolidado",
-        connection=engine,
+        connection=conn_uri,
         if_table_exists="replace",
+        engine="adbc",
     )
     print("Consolidado exportado correctamente")
 
@@ -44,8 +40,9 @@ def exportar_postgres():
             tabla = pl.DataFrame(valor)
             tabla.write_database(
                 table_name=nombre,
-                connection=engine,
+                connection=conn_uri,
                 if_table_exists="replace",
+                engine="adbc",
             )
             print(f"Tabla '{nombre}' exportada ({tabla.shape[0]} filas).")
         else:
