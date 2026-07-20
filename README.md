@@ -136,3 +136,46 @@ Power BI en modo DirectQuery.
 ### Tiempos de ejecución
 
 <img width="1094" height="551" alt="5 8" src="https://github.com/user-attachments/assets/964d00e8-e4fb-4398-af8d-a751174b0335" />
+
+## 6. Métricas del pipeline
+
+### Tiempo de ejecución por tarea
+
+| Tarea | Duración |
+|---|---|
+| `cargar_datos_task` | 0.58 s |
+| `eda_inicial_task` | 3.39 s |
+| `limpiar_datos_task` | 4.21 s |
+| `consolidar_datos_task` | 5.62 s |
+| `eda_profundo_task` | 7.84 s |
+| `exportar_postgres_task` | ~10.34 s |
+| **Total del DAG** | **31.98 s** |
+
+### Registros procesados por etapa
+
+| Etapa | Filas |
+|---|---|
+| `train.csv` (entrada) | 3,000,888 |
+| `stores.csv` | 54 |
+| `oil.csv` | 1,218 |
+| `holidays_events.csv` | 350 |
+| `transactions.csv` | 83,488 |
+| Consolidado final | 3,054,348 |
+
+El consolidado tiene más filas que `train` original porque algunas fechas
+registran más de un feriado simultáneo (nacional + regional/local); al unir por
+`date`, esas filas se multiplican una vez por cada coincidencia — comportamiento
+esperado de un `join`, no una duplicación indebida.
+
+### Registros eliminados/corregidos en limpieza
+
+| Verificación | Resultado |
+|---|---|
+| Duplicados detectados (`.is_duplicated()`) en las 5 tablas | 0 |
+| Nulos detectados | 43 (columna `dcoilwtico` de `oil.csv`) |
+| Filas eliminadas | 0 |
+| Valores imputados (interpolación lineal + relleno de extremos) | 43 |
+
+El dataset original ya venía curado por los organizadores de la competencia
+(Kaggle); el único vacío real correspondía a días sin cotización de mercado
+para el precio del petróleo (fines de semana y feriados bursátiles).
