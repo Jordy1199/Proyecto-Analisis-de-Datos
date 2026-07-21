@@ -188,46 +188,43 @@ para el precio del petróleo (fines de semana y feriados bursátiles).
 - **Suma de ventas_totales por family:** ranking de familias de producto por volumen de venta. Grocery I lidera con amplio margen (~0,4 mil M), seguido de Beverages y Produce.
 <img width="1033" height="464" alt="image" src="https://github.com/user-attachments/assets/938c9855-070a-4b94-9b55-ceef48dabc50" />
 
-
 - **Suma de ventas_totales por mes:** evolución mensual agregada de ventas a lo largo del año, mostrando un pico entre los meses 6-7 y una caída marcada en el mes 9.
-<img width="390" height="193" alt="image" src="https://github.com/user-attachments/assets/f4251353-f0a6-4562-a879-5e2033fc8e79" />
+<img width="943" height="463" alt="image" src="https://github.com/user-attachments/assets/9c1aa91f-3285-4ecd-bfc6-9e77de06a77e" />
 
 - **Ventas promedio por provincia:** mapa geográfico de Ecuador con burbujas proporcionales a la venta promedio por provincia; se concentra visualmente en Guayaquil y Quito.
-<img width="424" height="186" alt="image" src="https://github.com/user-attachments/assets/70562b57-6cc1-4d7f-9ce5-6c905ace71ba" />
+<img width="1054" height="468" alt="image" src="https://github.com/user-attachments/assets/1d91541c-ea44-47e1-8072-241d4a18d8ca" />
 
 - **Impacto de feriados en ventas promedio:** comparación directa entre ventas en feriado nacional ($425,43) vs día normal ($353,34), confirmando el incremento identificado en el EDA profundo.
-<img width="392" height="186" alt="image" src="https://github.com/user-attachments/assets/5f8ef6ae-1038-4f87-8f00-ed9467fa530d" />
+<img width="944" height="445" alt="image" src="https://github.com/user-attachments/assets/8c6ebb64-37a5-4866-9853-1e5c3c12366e" />
 
 ### Página 2 — Promociones y Economía
 
-[PEGAR AQUÍ: Image 2 — Promociones y Economía]
-
 - **Ventas mensuales vs precio del petróleo:** gráfico combinado (barras + línea) que superpone ventas totales mensuales con el precio promedio del petróleo, permitiendo observar visualmente la relación inversa entre ambas series a lo largo de 2015-2018.
-<img width="478" height="188" alt="image" src="https://github.com/user-attachments/assets/e8e225f0-8603-4150-8063-7f2ce0e980a6" />
+<img width="1154" height="451" alt="image" src="https://github.com/user-attachments/assets/438b5361-e0e3-45d8-b743-04ac0246537c" />
+
 
 - **Top 10 tiendas - Mayor venta:** ranking de las 10 tiendas (por `store_nbr`) con mayor venta acumulada.
-<img width="343" height="188" alt="image" src="https://github.com/user-attachments/assets/8b9aa8e0-a1f5-4911-87ad-360a62041bb6" />
+<img width="816" height="455" alt="image" src="https://github.com/user-attachments/assets/36ce9e70-48c6-4dee-9808-1b4fb84fe085" />
 
 - **Ventas con promoción vs sin promoción por familia:** comparación de barras dobles por familia de producto, mostrando el efecto de las promociones en cada categoría — Grocery I y Beverages muestran la mayor diferencia absoluta.
-<img width="481" height="189" alt="image" src="https://github.com/user-attachments/assets/399db788-86a6-4a94-a5be-a36d784ca198" />
+<img width="1150" height="448" alt="image" src="https://github.com/user-attachments/assets/ebc55d44-85a7-4c90-8304-97ca6c6a5292" />
 
 - **Top 10 tiendas - Menor venta:** ranking de las 10 tiendas con menor venta acumulada, útil para identificar puntos de venta con bajo desempeño.
-<img width="341" height="190" alt="image" src="https://github.com/user-attachments/assets/6ab37fbf-789e-4eb9-9b65-1a68143fd4ea" />
+<img width="819" height="449" alt="image" src="https://github.com/user-attachments/assets/e3d06052-a9a8-4aa1-9449-7f02e574171b" />
 
 ### Página 3 — Transacciones y Sensibilidad
 
 - **Relación entre transacciones y ventas totales por tienda:** gráfico de dispersión que confirma una correlación fuerte y positiva — a mayor número de transacciones, mayor venta total, con una tendencia lineal clara.
-<img width="534" height="253" alt="image" src="https://github.com/user-attachments/assets/cdfc5453-712e-43d9-8cec-553cb6eb4777" />
+<img width="1053" height="494" alt="image" src="https://github.com/user-attachments/assets/cddc629c-1041-4e6e-8e31-ffa2277afbc9" />
 
 - **Top 10 tiendas - Ticket promedio bajo:** tiendas con menor venta promedio por transacción (alto volumen de clientes, compras pequeñas).
-<img width="315" height="196" alt="image" src="https://github.com/user-attachments/assets/c584c787-9c07-44a8-810d-921af2b7ecd5" />
+<img width="620" height="389" alt="image" src="https://github.com/user-attachments/assets/53b7fd56-fa1f-47bb-a53e-ca83660909cb" />
 
 - **Correlación petróleo-ventas según lag temporal (2015-2016):** barras que muestran cómo cambia la correlación entre el precio del petróleo y las ventas al desplazar la comparación entre 0 y 6 meses, identificando en qué punto el efecto económico se refleja con mayor fuerza en el consumo.
-<img width="532" height="137" alt="image" src="https://github.com/user-attachments/assets/02c9e540-10b4-401f-8cf4-51c76f00064a" />
+<img width="1058" height="256" alt="image" src="https://github.com/user-attachments/assets/f6aff026-c331-48b4-a655-11fdaec432ab" />
 
 - **Top 10 tiendas - Ticket promedio alto:** tiendas con mayor venta promedio por transacción (menor volumen de clientes, compras de mayor valor).
-<img width="317" height="193" alt="image" src="https://github.com/user-attachments/assets/31c5970b-c289-4c48-a995-a498a20ff886" />
-
+<img width="661" height="397" alt="image" src="https://github.com/user-attachments/assets/4e9909c7-6250-4cba-ae91-96c06b92673a" />
 
 ## 8. Despliegue: instrucciones para reproducir el ambiente
 
