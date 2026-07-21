@@ -180,6 +180,215 @@ El dataset original ya venía curado por los organizadores de la competencia
 (Kaggle); el único vacío real correspondía a días sin cotización de mercado
 para el precio del petróleo (fines de semana y feriados bursátiles).
 
+
+## 7. Capturas del dashboard de Power BI
+
+### Página 1 — Ventas Generales
+
+- **Suma de ventas_totales por family:** ranking de familias de producto por volumen de venta. Grocery I lidera con amplio margen (~0,4 mil M), seguido de Beverages y Produce.
+<img width="430" height="196" alt="image" src="https://github.com/user-attachments/assets/cd6938ee-b928-4bbc-93cf-3d5700c305fe" />
+
+- **Suma de ventas_totales por mes:** evolución mensual agregada de ventas a lo largo del año, mostrando un pico entre los meses 6-7 y una caída marcada en el mes 9.
+<img width="390" height="193" alt="image" src="https://github.com/user-attachments/assets/f4251353-f0a6-4562-a879-5e2033fc8e79" />
+
+- **Ventas promedio por provincia:** mapa geográfico de Ecuador con burbujas proporcionales a la venta promedio por provincia; se concentra visualmente en Guayaquil y Quito.
+<img width="424" height="186" alt="image" src="https://github.com/user-attachments/assets/70562b57-6cc1-4d7f-9ce5-6c905ace71ba" />
+
+- **Impacto de feriados en ventas promedio:** comparación directa entre ventas en feriado nacional ($425,43) vs día normal ($353,34), confirmando el incremento identificado en el EDA profundo.
+<img width="392" height="186" alt="image" src="https://github.com/user-attachments/assets/5f8ef6ae-1038-4f87-8f00-ed9467fa530d" />
+
+### Página 2 — Promociones y Economía
+
+[PEGAR AQUÍ: Image 2 — Promociones y Economía]
+
+- **Ventas mensuales vs precio del petróleo:** gráfico combinado (barras + línea) que superpone ventas totales mensuales con el precio promedio del petróleo, permitiendo observar visualmente la relación inversa entre ambas series a lo largo de 2015-2018.
+<img width="478" height="188" alt="image" src="https://github.com/user-attachments/assets/e8e225f0-8603-4150-8063-7f2ce0e980a6" />
+
+- **Top 10 tiendas - Mayor venta:** ranking de las 10 tiendas (por `store_nbr`) con mayor venta acumulada.
+<img width="343" height="188" alt="image" src="https://github.com/user-attachments/assets/8b9aa8e0-a1f5-4911-87ad-360a62041bb6" />
+
+- **Ventas con promoción vs sin promoción por familia:** comparación de barras dobles por familia de producto, mostrando el efecto de las promociones en cada categoría — Grocery I y Beverages muestran la mayor diferencia absoluta.
+<img width="481" height="189" alt="image" src="https://github.com/user-attachments/assets/399db788-86a6-4a94-a5be-a36d784ca198" />
+
+- **Top 10 tiendas - Menor venta:** ranking de las 10 tiendas con menor venta acumulada, útil para identificar puntos de venta con bajo desempeño.
+<img width="341" height="190" alt="image" src="https://github.com/user-attachments/assets/6ab37fbf-789e-4eb9-9b65-1a68143fd4ea" />
+
+### Página 3 — Transacciones y Sensibilidad
+
+- **Relación entre transacciones y ventas totales por tienda:** gráfico de dispersión que confirma una correlación fuerte y positiva — a mayor número de transacciones, mayor venta total, con una tendencia lineal clara.
+<img width="534" height="253" alt="image" src="https://github.com/user-attachments/assets/cdfc5453-712e-43d9-8cec-553cb6eb4777" />
+
+- **Top 10 tiendas - Ticket promedio bajo:** tiendas con menor venta promedio por transacción (alto volumen de clientes, compras pequeñas).
+<img width="315" height="196" alt="image" src="https://github.com/user-attachments/assets/c584c787-9c07-44a8-810d-921af2b7ecd5" />
+
+- **Correlación petróleo-ventas según lag temporal (2015-2016):** barras que muestran cómo cambia la correlación entre el precio del petróleo y las ventas al desplazar la comparación entre 0 y 6 meses, identificando en qué punto el efecto económico se refleja con mayor fuerza en el consumo.
+<img width="532" height="137" alt="image" src="https://github.com/user-attachments/assets/02c9e540-10b4-401f-8cf4-51c76f00064a" />
+
+- **Top 10 tiendas - Ticket promedio alto:** tiendas con mayor venta promedio por transacción (menor volumen de clientes, compras de mayor valor).
+<img width="317" height="193" alt="image" src="https://github.com/user-attachments/assets/31c5970b-c289-4c48-a995-a498a20ff886" />
+
+
+## 8. Despliegue: instrucciones para reproducir el ambiente
+
+### Requisitos previos
+
+- Cuenta de Azure for Students con crédito activo.
+- Cliente SSH (WSL2, terminal Linux o similar).
+- Git instalado localmente.
+
+### Paso 1 — Crear la máquina virtual en Azure
+
+| Parámetro | Valor |
+|---|---|
+| Suscripción | Azure for Students |
+| Grupo de recursos | `rg-favorita-pipeline` |
+| Región | Mexico Central |
+| Imagen | Ubuntu Server 24.04 LTS (Gen2) |
+| Tamaño | Standard_B2s (2 vCPUs, 4 GB RAM) |
+| Autenticación | Clave pública SSH |
+| Puertos de entrada | SSH (22) |
+
+En el Network Security Group de la VM, agregar además una regla de entrada para el puerto **8080/TCP** (interfaz web de Airflow).
+
+### Paso 2 — Conectarse a la VM
+
+```bash
+ssh -i <clave_privada>.pem <usuario>@<IP_publica_VM>
+```
+
+### Paso 3 — Preparar el sistema operativo
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3-pip python3-venv postgresql postgresql-contrib git tmux -y
+```
+
+### Paso 4 — Clonar el repositorio
+
+```bash
+git clone https://github.com/Jordy1199/Proyecto-Analisis-de-Datos.git
+cd Proyecto-Analisis-de-Datos
+```
+
+### Paso 5 — Crear entorno virtual e instalar dependencias
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install "apache-airflow==3.1.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.1.0/constraints-3.12.txt"
+pip install polars psycopg2-binary sqlalchemy "pandas==2.1.4" adbc-driver-postgresql adbc-driver-manager
+```
+
+El uso del archivo `--constraint` oficial de Apache Airflow es obligatorio: evita conflictos de versión entre las dependencias internas de Airflow (`structlog`, `starlette`, `pyjwt`, entre otras) que de otro modo `pip` instalaría en sus versiones más recientes e incompatibles entre sí.
+
+### Paso 6 — Configurar PostgreSQL
+
+```bash
+sudo -u postgres psql -c "CREATE DATABASE favorita_db;"
+sudo -u postgres psql -c "CREATE USER favorita_user WITH PASSWORD '<definir_contraseña>';"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE favorita_db TO favorita_user;"
+```
+
+### Paso 7 — Configurar variable de entorno para la contraseña
+
+El script `exportar_postgres.py` lee la contraseña desde una variable de entorno, nunca desde el código fuente:
+
+```bash
+echo 'export POSTGRES_PASSWORD="<la_misma_contraseña_del_paso_6>"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Paso 8 — Copiar los datos crudos a la VM
+
+Los 5 archivos CSV **no están en el repositorio**. Deben copiarse manualmente a:
+~/favorita_pipeline/data/raw/store-sales-time-series-forecasting/
+
+Ejemplo, desde la máquina local:
+
+```bash
+scp -i <clave_privada>.pem <ruta_local_csvs>/*.csv <usuario>@<IP_VM>:~/favorita_pipeline/data/raw/store-sales-time-series-forecasting/
+```
+
+### Paso 9 — Enlazar la carpeta de scripts
+
+```bash
+ln -s ~/Proyecto-Analisis-de-Datos/scripts ~/favorita_pipeline/scripts
+```
+
+### Paso 10 — Inicializar y levantar Airflow
+
+```bash
+export AIRFLOW_HOME=~/Proyecto-Analisis-de-Datos
+airflow db migrate
+
+tmux new -s airflow
+export AIRFLOW_HOME=~/Proyecto-Analisis-de-Datos
+source venv/bin/activate
+airflow standalone
+```
+
+Salir de la sesión de tmux sin detener el proceso: `Ctrl+B`, luego `D`.
+
+### Paso 11 — Acceder a la interfaz web
+
+- URL: `http://<IP_publica_VM>:8080`
+- Usuario: `admin`
+- Contraseña: generada automáticamente en:
+```bash
+cat ~/Proyecto-Analisis-de-Datos/simple_auth_manager_passwords.json.generated
+```
+
+### Paso 12 — Ejecutar el pipeline
+
+Desde la interfaz web (botón "Trigger"), por terminal:
+```bash
+airflow dags trigger favorita_pipeline
+```
+o automáticamente mediante GitHub Actions (ver sección de CI/CD), cada vez que se actualiza `manifest.json`.
+
+### Administración de la VM (encendido/apagado)
+
+```bash
+# Apagar (libera cómputo, evita cargos innecesarios)
+az vm deallocate --resource-group rg-favorita-pipeline --name vm-favorita
+
+# Encender
+az vm start --resource-group rg-favorita-pipeline --name vm-favorita
+```
+
+### Paso 13 — Conectar Power BI a PostgreSQL
+
+Power BI Desktop se conecta directamente a la base `favorita_db` en modo DirectQuery, sin necesidad de exportar archivos intermedios:
+
+1. En Power BI Desktop: **Obtener datos → Base de datos → PostgreSQL**.
+2. Servidor: `<IP_publica_VM>:5432`
+3. Base de datos: `favorita_db`
+4. Modo de conectividad de datos: **DirectQuery** (mantiene el dashboard sincronizado con cada nueva ejecución del pipeline, sin recargar manualmente).
+5. Credenciales: usuario `favorita_user` y su contraseña.
+6. Seleccionar las tablas necesarias (`consolidado` y las tablas generadas por el EDA profundo).
+
+**Requisito de red:** el puerto **5432/TCP** debe estar abierto en el Network Security Group de la VM para permitir la conexión remota desde Power BI.
+
+### CI/CD — Automatización con GitHub Actions
+
+El repositorio incluye un workflow (`.github/workflows/trigger_pipeline.yml`) que dispara automáticamente la ejecución del DAG en la VM, sin necesidad de conectarse manualmente por SSH.
+
+**Disparadores:**
+- Automático: cualquier `push` que modifique `manifest.json` en la raíz del repositorio.
+- Manual: mediante `workflow_dispatch`, desde la pestaña "Actions" de GitHub.
+
+**Funcionamiento:**
+1. Decodifica una clave SSH almacenada como secreto de GitHub (`VM_SSH_KEY`, en base64).
+2. Se conecta por SSH a la VM (usando los secretos `VM_HOST` y `VM_USER`) mediante la acción `appleboy/ssh-action`.
+3. Dentro de la VM, activa el entorno virtual y ejecuta `airflow dags trigger favorita_pipeline`.
+
+**Secretos configurados en el repositorio** (Settings → Secrets and variables → Actions):
+- `VM_SSH_KEY`: clave privada SSH codificada en base64.
+- `VM_HOST`: IP pública de la VM.
+- `VM_USER`: usuario de conexión SSH.
+
+Esto permite que cada actualización del dataset o del pipeline (reflejada en `manifest.json`) dispare una nueva ejecución automáticamente, sin intervención manual.
+
 ## 9. Conclusiones y recomendaciones
 
 ### Conclusiones
