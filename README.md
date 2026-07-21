@@ -186,7 +186,8 @@ para el precio del petróleo (fines de semana y feriados bursátiles).
 ### Página 1 — Ventas Generales
 
 - **Suma de ventas_totales por family:** ranking de familias de producto por volumen de venta. Grocery I lidera con amplio margen (~0,4 mil M), seguido de Beverages y Produce.
-<img width="430" height="196" alt="image" src="https://github.com/user-attachments/assets/cd6938ee-b928-4bbc-93cf-3d5700c305fe" />
+<img width="1033" height="464" alt="image" src="https://github.com/user-attachments/assets/938c9855-070a-4b94-9b55-ceef48dabc50" />
+
 
 - **Suma de ventas_totales por mes:** evolución mensual agregada de ventas a lo largo del año, mostrando un pico entre los meses 6-7 y una caída marcada en el mes 9.
 <img width="390" height="193" alt="image" src="https://github.com/user-attachments/assets/f4251353-f0a6-4562-a879-5e2033fc8e79" />
