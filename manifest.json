@@ -1,5 +1,5 @@
 {
-  "fecha_actualizacion": "2026-07-08",
-  "version_dataset": "1.0.0",
-  "descripcion_cambio": "Version inicial del pipeline: carga, EDA inicial, limpieza y consolidacion de las 5 fuentes de datos de Corporacion Favorita."
+  "fecha_actualizacion": "2026-07-21",
+  "version_dataset": "1.4.3",
+  "descripcion_cambio": "Version final del proyecto"
 }
